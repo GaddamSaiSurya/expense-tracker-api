@@ -1,6 +1,10 @@
 package com.example.expenseTracker.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -20,9 +24,15 @@ public class Expense {
     )
 
     private Long id;
+    @NotBlank
     private String title;
+    @NotNull
+    @Positive
     private BigDecimal amount;
+    @NotBlank
     private String category;
+    @NotNull
+    @PastOrPresent
     private LocalDate date;
 
     public Expense() {
