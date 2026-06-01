@@ -1,5 +1,6 @@
 package com.example.expenseTracker.service;
 
+import com.example.expenseTracker.exception.ExpenseNotFoundException;
 import com.example.expenseTracker.repository.ExpenseRepository;
 import org.springframework.stereotype.Service;
 import com.example.expenseTracker.entity.Expense;
@@ -24,24 +25,26 @@ public class ExpenseService {
         expenseRepository.save(expense);
     }
 
-    public Optional<Expense> getById(Long id){
-        return expenseRepository.findById(id);
+    private Expense findExpenseOrThrow(Long id){
+        return expenseRepository.findById(id).orElseThrow(() -> new ExpenseNotFoundException(id));
+    }
+
+    public Expense getById(Long id){
+        return findExpenseOrThrow(id);
     }
 
     public void deleteById(Long id){
-        expenseRepository.deleteById(id);
+        Expense expense = findExpenseOrThrow(id);
+        expenseRepository.delete(expense);
     }
 
     public void updateExpense(Expense updatedExpense, Long id){
-        Optional<Expense> expense = expenseRepository.findById(id);
-        if(expense.isPresent()){
-            Expense existingExpense = expense.get();
-            existingExpense.setTitle(updatedExpense.getTitle());
-            existingExpense.setAmount(updatedExpense.getAmount());
-            existingExpense.setCategory(updatedExpense.getCategory());
-            existingExpense.setDate(updatedExpense.getDate());
+        Expense existingExpense = findExpenseOrThrow(id);
+        existingExpense.setTitle(updatedExpense.getTitle());
+        existingExpense.setAmount(updatedExpense.getAmount());
+        existingExpense.setCategory(updatedExpense.getCategory());
+        existingExpense.setDate(updatedExpense.getDate());
+        expenseRepository.save(existingExpense);
 
-            expenseRepository.save(existingExpense);
-        }
     }
 }

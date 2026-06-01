@@ -29,7 +29,7 @@ public class ExpenseController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Expense> getById(@PathVariable Long id){
+    public Expense getById(@PathVariable Long id){
         return expenseService.getById(id);
     }
 
