@@ -1,5 +1,6 @@
 package com.example.expenseTracker.entity;
 
+import com.example.expenseTracker.enums.Category;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -29,8 +30,9 @@ public class Expense {
     @NotNull
     @Positive
     private BigDecimal amount;
-    @NotBlank
-    private String category;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Category category;
     @NotNull
     @PastOrPresent
     private LocalDate date;
@@ -38,7 +40,7 @@ public class Expense {
     public Expense() {
     }
 
-    public Expense(String title, BigDecimal amount, String category, LocalDate date) {
+    public Expense(String title, BigDecimal amount, Category category, LocalDate date) {
         this.title = title;
         this.amount = amount;
         this.category = category;
@@ -69,11 +71,11 @@ public class Expense {
         this.amount = amount;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
