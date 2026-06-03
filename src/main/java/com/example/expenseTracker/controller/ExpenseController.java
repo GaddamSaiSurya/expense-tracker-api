@@ -1,6 +1,7 @@
 package com.example.expenseTracker.controller;
 
 import com.example.expenseTracker.entity.Expense;
+import com.example.expenseTracker.enums.Category;
 import com.example.expenseTracker.service.ExpenseService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
@@ -41,5 +42,12 @@ public class ExpenseController {
     @PutMapping("/{id}")
     public void updateExpense(@RequestBody @Valid Expense updatedExpense, @PathVariable Long id){
         expenseService.updateExpense(updatedExpense, id);
+    }
+
+    @GetMapping("/category/{category}")
+    public List<Expense> getExpensesByCategory(
+            @PathVariable Category category
+            ){
+        return expenseService.getExpensesByCategory(category);
     }
 }

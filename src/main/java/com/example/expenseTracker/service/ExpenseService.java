@@ -1,5 +1,6 @@
 package com.example.expenseTracker.service;
 
+import com.example.expenseTracker.enums.Category;
 import com.example.expenseTracker.exception.ExpenseNotFoundException;
 import com.example.expenseTracker.repository.ExpenseRepository;
 import org.springframework.stereotype.Service;
@@ -46,5 +47,9 @@ public class ExpenseService {
         existingExpense.setDate(updatedExpense.getDate());
         expenseRepository.save(existingExpense);
 
+    }
+
+    public List<Expense> getExpensesByCategory(Category category){
+        return expenseRepository.findByCategory(category);
     }
 }
