@@ -6,6 +6,8 @@ import com.example.expenseTracker.service.ExpenseService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,5 +51,19 @@ public class ExpenseController {
             @PathVariable Category category
             ){
         return expenseService.getExpensesByCategory(category);
+    }
+
+    @GetMapping("/total")
+    public BigDecimal getTotalExpense(){
+        return expenseService.getTotalExpenses();
+    }
+
+    @GetMapping("/date-range")
+    public List<Expense> getExpensesBetweenDates(
+            @RequestParam LocalDate startDate,
+            @RequestParam  LocalDate endDate
+    ){
+        return expenseService.getExpensesBetweenDates(
+                startDate, endDate);
     }
 }
